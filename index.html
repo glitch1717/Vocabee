@@ -109,6 +109,7 @@
   .nav-inner{
     max-width: 1080px; margin: 0 auto; padding: 14px 24px;
     display:flex; align-items:center; justify-content:space-between; gap: 16px;
+    flex-wrap: wrap;
   }
   .logo{
     font-family: var(--font-pixel);
@@ -124,11 +125,7 @@
   nav.links{ display:flex; align-items:center; gap: 22px; font-family: var(--font-term); font-size: 19px; }
   nav.links a{ text-decoration:none; color: var(--text-mid); border-bottom: 2px solid transparent; padding-bottom:2px; transition: color .15s, border-color .15s; cursor: pointer; }
   nav.links a:hover, nav.links a:focus-visible{ color: var(--gold); border-color: var(--gold); }
-  .back-link{
-    font-family: var(--font-term); font-size: 19px; text-decoration:none; color: var(--text-mid);
-    border-bottom: 2px solid transparent; cursor: pointer; display:none;
-  }
-  .back-link:hover, .back-link:focus-visible{ color: var(--gold); border-color: var(--gold); }
+  nav.links a.active{ color: var(--gold); border-color: var(--gold); }
   .nav-toggle{ display:none; background:none; border: 2px solid var(--void-line); color: var(--text-hi); font-family: var(--font-term); font-size: 20px; padding: 4px 10px; cursor:pointer; }
   .nav-controls{ display:flex; align-items:center; gap: 10px; }
 
@@ -141,10 +138,34 @@
   .theme-switch:hover, .theme-switch:focus-visible{ border-color: var(--gold); color: var(--gold); }
   .theme-switch .dot{ width:9px; height:9px; background: var(--text-hi); flex-shrink:0; }
 
-  /* when the vocab module view is active, swap the section links for a single back link */
-  body.on-belajar #navLinks{ display:none; }
-  body.on-belajar .nav-toggle{ display:none; }
-  body.on-belajar .back-link{ display:inline-block; }
+  /* ---------- dropdown (section links live here, next to the theme switch) ---------- */
+  .dropdown{ position: relative; }
+  .dropdown-toggle{
+    font-family: var(--font-term); font-size: 17px;
+    display:flex; align-items:center; gap: 6px;
+    background: none; border: 2px solid var(--void-line); color: var(--text-hi);
+    padding: 5px 12px; cursor:pointer;
+  }
+  .dropdown-toggle:hover, .dropdown-toggle:focus-visible{ border-color: var(--gold); color: var(--gold); }
+  .dropdown-toggle .caret{ font-size: 12px; display:inline-block; transition: transform .15s ease; }
+  .dropdown.open .dropdown-toggle .caret{ transform: rotate(180deg); }
+  .dropdown-menu{
+    position:absolute; top: calc(100% + 8px); right:0;
+    background: var(--void-deep); border: 2px solid var(--void-line);
+    min-width: 210px;
+    display:flex; flex-direction:column;
+    opacity:0; visibility:hidden; transform: translateY(-6px);
+    transition: opacity .15s ease, transform .15s ease, visibility .15s ease;
+    z-index: 60;
+  }
+  .dropdown.open .dropdown-menu{ opacity:1; visibility:visible; transform: translateY(0); }
+  .dropdown-menu a{
+    font-family: var(--font-term); font-size: 18px; color: var(--text-mid);
+    text-decoration:none; padding: 10px 16px; border-bottom: 1px solid var(--void-line);
+    cursor:pointer;
+  }
+  .dropdown-menu a:last-child{ border-bottom:none; }
+  .dropdown-menu a:hover, .dropdown-menu a:focus-visible{ color: var(--gold); background: rgba(255,255,255,0.04); }
 
   @media (max-width: 720px){
     nav.links{
@@ -156,10 +177,10 @@
     nav.links.open{ max-height: 320px; }
     nav.links a{ padding: 14px 24px; border-bottom: 1px solid var(--void-line); width:100%; }
     .nav-toggle{ display:block; }
-    body.on-belajar .nav-toggle{ display:none; }
   }
-  @media (max-width: 380px){
-    .theme-switch{ font-size: 15px; padding: 5px 8px; }
+  @media (max-width: 420px){
+    .theme-switch, .dropdown-toggle{ font-size: 14px; padding: 5px 8px; }
+    .nav-controls{ gap: 6px; }
   }
 
   /* ---------- generic section rhythm ---------- */
@@ -268,7 +289,7 @@
   .stage-caption{ font-family: var(--font-term); font-size: 19px; color: var(--text-mid); }
   .stage-caption b{ color: var(--wrong); font-weight: 600; }
 
-  /* ---------- stat / problem cards ---------- */
+  /* ---------- stat / highlight cards ---------- */
   .stat-grid{ display:grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin-top: 8px; }
   @media (max-width: 860px){ .stat-grid{ grid-template-columns: 1fr; } }
   .stat-card{
@@ -276,9 +297,8 @@
   }
   .stat-card .num{ font-family: var(--font-pixel); font-size: 26px; color: var(--gold); display:block; margin-bottom: 14px; }
   .stat-card p{ font-size: 15px; }
-  .stat-card .src{ display:block; margin-top: 12px; font-family: var(--font-term); font-size: 15px; color: var(--text-dim); }
 
-  /* ---------- how to play: turn sequence ---------- */
+  /* ---------- how to play / step cards (shared by Cara Main and Game pages) ---------- */
   .turns{ display:grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-top: 10px; }
   @media (max-width: 940px){ .turns{ grid-template-columns: 1fr 1fr; } }
   @media (max-width: 560px){ .turns{ grid-template-columns: 1fr; } }
@@ -421,6 +441,27 @@
   }
   .reset-row{ margin-top: 30px; }
 
+  /* ---------- FAQ accordion ---------- */
+  .faq-list{ display:flex; flex-direction:column; gap: 14px; margin-top: 30px; }
+  .faq-item{
+    background: var(--panel); border: 2px solid var(--panel-ink); box-shadow: 5px 5px 0 var(--shadow);
+  }
+  .faq-item summary{
+    list-style:none; cursor:pointer; padding: 18px 22px;
+    font-family: var(--font-term); font-size: 21px; color: var(--panel-ink);
+    display:flex; align-items:center; justify-content:space-between; gap: 14px;
+  }
+  .faq-item summary::-webkit-details-marker{ display:none; }
+  .faq-item summary::after{
+    content:"+"; font-family: var(--font-pixel); font-size:14px; color: var(--gold-deep); flex-shrink:0;
+  }
+  .faq-item[open] summary::after{ content:"–"; }
+  .faq-answer{ padding: 0 22px 22px; font-size: 15px; color: var(--panel-ink); opacity:.82; line-height:1.7; }
+
+  /* ---------- game page CTA ---------- */
+  .game-cta{ text-align:center; padding: 44px 24px; }
+  .game-cta .btn{ font-size: 23px; padding: 16px 32px; margin-top: 8px; }
+
   /* ---------- footer ---------- */
   footer{
     padding: 60px 0 calc(40px + var(--safe-b));
@@ -432,9 +473,11 @@
   footer .credit{ margin-top: 26px; font-family: var(--font-term); font-size: 16px; color: var(--text-dim); }
 
   /* ---------- view switching (single-file, no external links) ---------- */
-  #viewBelajar{ display: none; }
-  body.on-belajar #viewHome{ display: none; }
-  body.on-belajar #viewBelajar{ display: block; }
+  #viewHome, #viewBelajar, #viewFAQ, #viewGame{ display:none; }
+  body[data-view="home"] #viewHome{ display:block; }
+  body[data-view="belajar"] #viewBelajar{ display:block; }
+  body[data-view="faq"] #viewFAQ{ display:block; }
+  body[data-view="game"] #viewGame{ display:block; }
 
   @media (prefers-reduced-motion: reduce){
     html{ scroll-behavior: auto; }
@@ -443,23 +486,34 @@
   }
 </style>
 </head>
-<body>
+<body data-view="home">
 
 <div class="void-bg" aria-hidden="true"></div>
 
 <header class="nav">
   <div class="nav-inner">
     <div class="logo"><span class="sq" aria-hidden="true"></span>VOCABEE</div>
+
     <nav class="links" id="navLinks">
-      <a href="#masalah" data-home-link>Kenapa Pilih Kami</a>
-      <a href="#cara-main" data-home-link>Cara Main</a>
-      <a href="#demo" data-home-link>Coba Bertarung</a>
-      <a href="#belajar" data-home-link>Modul Belajar</a>
-      <a href="#fitur" data-home-link>Fitur</a>
-      <a href="#tim" data-home-link>Tim</a>
+      <a href="#" data-view="home" class="active">Home</a>
+      <a href="#" data-view="belajar">Modul Belajar</a>
+      <a href="#" data-view="faq">FAQ</a>
+      <a href="#" data-view="game">Game</a>
     </nav>
-    <a class="back-link" id="backLink" href="#">← Kembali ke Beranda</a>
+
     <div class="nav-controls">
+      <div class="dropdown" id="sectionDropdown">
+        <button class="dropdown-toggle" id="dropdownToggle" type="button" aria-expanded="false" aria-haspopup="true">
+          Part <span class="caret" aria-hidden="true">▾</span>
+        </button>
+        <div class="dropdown-menu" id="dropdownMenu" role="menu">
+          <a href="#" data-section="masalah" role="menuitem">Kenapa Pilih Kami</a>
+          <a href="#" data-section="cara-main" role="menuitem">Cara Main</a>
+          <a href="#" data-section="demo" role="menuitem">Coba Bertarung</a>
+          <a href="#" data-section="fitur" role="menuitem">Fitur</a>
+          <a href="#" data-section="tim" role="menuitem">Tim</a>
+        </div>
+      </div>
       <button class="theme-switch" id="themeSwitch" type="button" aria-pressed="false">
         <span class="dot" aria-hidden="true"></span><span id="themeSwitchLabel">MODE GELAP</span>
       </button>
@@ -478,11 +532,11 @@
       <div class="wrap hero-grid">
         <div>
           <p class="encounter-tag">* Sebuah kesalahan bahasa muncul<span class="blink">_</span></p>
-          <h1 class="title">Belajar Inggris untuk <span class="accent">bertarung.</h1>
+          <h1 class="title">Belajar Inggris untuk <span class="accent">bertarung.</span></h1>
           <p class="lede">VocaBee menyediakan platform belajar Bahasa Inggris melalui game petualangan dan juga menyediakan modul belajar untuk para pelajar</p>
           <div class="hero-actions">
-            <a class="btn" href="#demo">Coba Bertarung Sekarang</a>
-            <a class="btn ghost" href="#masalah">Kenapa Pilih Kami</a>
+            <a class="btn" href="#" data-view="game">Coba Bertarung Sekarang</a>
+            <a class="btn ghost" href="#" data-section="masalah">Kenapa Pilih Kami</a>
           </div>
         </div>
 
@@ -585,7 +639,7 @@
       </div>
     </section>
 
-    <!-- MODUL BELAJAR (teaser -> switches to the module view below) -->
+    <!-- MODUL BELAJAR (teaser -> switches to the module view) -->
     <section id="belajar">
       <div class="wrap">
         <p class="eyebrow-line"><span class="dash"></span>Modul Belajar</p>
@@ -597,7 +651,7 @@
             <p class="stage-caption" style="margin:0 0 6px;">◆ MODUL 01 — KOSAKATA DASAR</p>
             <p style="margin:0; color: var(--text-hi); font-family: var(--font-term); font-size: 20px;">15 kartu · kata sifat &amp; kata benda sehari-hari</p>
           </div>
-          <button class="btn" id="openBelajarBtn" type="button">Buka Modul Belajar</button>
+          <a class="btn" href="#" data-view="belajar">Buka Modul Belajar</a>
         </div>
       </div>
     </section>
@@ -707,11 +761,99 @@
   </div>
   <!-- ============ /VIEW: BELAJAR ============ -->
 
+  <!-- ============ VIEW: FAQ ============ -->
+  <div id="viewFAQ">
+    <section class="tight">
+      <div class="wrap">
+        <p class="eyebrow-line"><span class="dash"></span>FAQ</p>
+        <h2 class="h2">Pertanyaan yang sering ditanyakan.</h2>
+        <p class="lede" style="margin-top:16px;">Belum ketemu jawabannya? Hubungi tim VocaBee lewat bagian Tim (buka dari menu dropdown di kanan atas).</p>
+
+        <div class="faq-list">
+          <details class="faq-item">
+            <summary>Apa itu VocaBee?</summary>
+            <p class="faq-answer">VocaBee adalah game RPG edukasi yang mengajak pemain belajar kosakata dan tata bahasa Inggris lewat sistem pertarungan bergiliran, terinspirasi RPG klasik. Setiap musuh mewakili satu kesalahan bahasa yang harus kamu kalahkan dengan jawaban yang tepat.</p>
+          </details>
+          <details class="faq-item">
+            <summary>Apakah VocaBee gratis dimainkan?</summary>
+            <p class="faq-answer">Ya. VocaBee dikembangkan sebagai proyek untuk lomba Web Development SwitchFest 2026 dan bisa dicoba tanpa biaya.</p>
+          </details>
+          <details class="faq-item">
+            <summary>VocaBee cocok untuk usia berapa?</summary>
+            <p class="faq-answer">Dirancang terutama untuk pelajar SMP, tapi siapa pun yang ingin melatih kosakata dan tata bahasa dasar bahasa Inggris juga bisa memainkannya.</p>
+          </details>
+          <details class="faq-item">
+            <summary>Bagaimana cara mulai bermain?</summary>
+            <p class="faq-answer">Buka halaman Game dari menu navigasi di atas, lalu ikuti tombol dan langkah-langkah di sana untuk masuk ke sesi pertarungan pertamamu.</p>
+          </details>
+          <details class="faq-item">
+            <summary>Apakah saya harus menghafal dulu sebelum bermain?</summary>
+            <p class="faq-answer">Tidak wajib, tapi sangat disarankan. Buka Modul Belajar dulu supaya kamu lebih siap menghadapi musuh-musuh di pertarungan.</p>
+          </details>
+          <details class="faq-item">
+            <summary>Apakah progres hafalan saya tersimpan?</summary>
+            <p class="faq-answer">Ya. Progres "sudah hafal" di Modul Belajar otomatis tersimpan di browser yang kamu pakai, jadi tetap ada walau halaman ditutup dan dibuka lagi — kecuali kamu membersihkan data browser.</p>
+          </details>
+          <details class="faq-item">
+            <summary>Bisa dimainkan di HP?</summary>
+            <p class="faq-answer">Bisa. Seluruh tampilan VocaBee otomatis menyesuaikan ukuran layar, baik di HP, tablet, maupun laptop.</p>
+          </details>
+          <details class="faq-item">
+            <summary>Saya menemukan bug atau punya saran, harus lapor ke mana?</summary>
+            <p class="faq-answer">Hubungi salah satu anggota tim VocaBee yang tercantum di bagian Tim (bisa diakses lewat menu dropdown), atau sampaikan langsung ke panitia SwitchFest 2026.</p>
+          </details>
+        </div>
+      </div>
+    </section>
+  </div>
+  <!-- ============ /VIEW: FAQ ============ -->
+
+  <!-- ============ VIEW: GAME ============ -->
+  <div id="viewGame">
+    <section class="tight">
+      <div class="wrap">
+        <p class="eyebrow-line"><span class="dash"></span>Game</p>
+        <h2 class="h2">Masuk ke arena pertarungan sungguhan.</h2>
+        <p class="lede" style="margin-top:16px;">Semua yang kamu coba di halaman Coba Bertarung baru cuplikannya. Klik tombol di bawah untuk memainkan VocaBee versi penuh.</p>
+
+        <div class="demo-shell game-cta" style="margin-top: 28px;">
+          <p class="stage-caption" style="margin:0 0 16px;">◆ SIAP UNTUK BERTARUNG? ◆</p>
+          <a class="btn" href="#" id="playGameLink" target="_blank" rel="noopener">Mainkan VocaBee Sekarang</a>
+          <p class="hint" style="margin-top:16px;">* Ganti link tombol ini (cari id="playGameLink" di kode HTML) dengan tautan resmi game kamu — misalnya itch.io, Google Play, atau link unduhan.</p>
+        </div>
+
+        <div class="turns" style="margin-top: 40px;">
+          <div class="turn">
+            <span class="idx">01</span>
+            <h3>Klik Mainkan</h3>
+            <p>Tekan tombol di atas untuk membuka atau mengunduh game VocaBee.</p>
+          </div>
+          <div class="turn">
+            <span class="idx">02</span>
+            <h3>Tunggu Dimuat</h3>
+            <p>Beri waktu sebentar untuk game memuat aset dan menyiapkan sesi pertarungan pertamamu.</p>
+          </div>
+          <div class="turn">
+            <span class="idx">03</span>
+            <h3>Ikuti Tutorial</h3>
+            <p>Game akan memandu kamu mengenal kontrol dan mekanisme pertarungan lewat kosakata.</p>
+          </div>
+          <div class="turn">
+            <span class="idx">04</span>
+            <h3>Mulai Bertarung</h3>
+            <p>Hadapi musuh pertamamu dan mulai kumpulkan kosakata baru sambil menaklukkan RPG ini.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+  <!-- ============ /VIEW: GAME ============ -->
+
 </main>
 
 <footer>
   <div class="wrap">
-    <p class="credit" id="footerCredit">@2026 VOCABEE. All rights reserved.</p>
+    <p class="credit" id="footerCredit">© 2026 VOCABEE. All rights reserved.</p>
   </div>
 </footer>
 
@@ -756,37 +898,73 @@
     document.fonts.ready.then(syncNavHeight);
   }
 
-  // mobile nav toggle
+  // mobile nav toggle (collapses Home / Modul Belajar / FAQ / Game)
   const navToggle = document.getElementById('navToggle');
-  const navLinks = document.getElementById('navLinks');
+  const navLinksEl = document.getElementById('navLinks');
+  function closeMobileMenu() {
+    navLinksEl.classList.remove('open');
+    navToggle.setAttribute('aria-expanded', 'false');
+  }
   navToggle.addEventListener('click', () => {
-    const open = navLinks.classList.toggle('open');
+    const open = navLinksEl.classList.toggle('open');
     navToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
   });
-  navLinks.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
-    navLinks.classList.remove('open');
-    navToggle.setAttribute('aria-expanded', 'false');
-  }));
 
-  // ---- one-page view switching: home <-> vocab module, no external links ----
-  const backLink = document.getElementById('backLink');
-  const openBelajarBtn = document.getElementById('openBelajarBtn');
-  const footerSave = document.getElementById('footerSave');
-  const footerCredit = document.getElementById('footerCredit');
-
+  // ---- view switching: home / belajar / faq / game ----
   function setView(view) {
-    const belajar = view === 'belajar';
-    document.body.classList.toggle('on-belajar', belajar);
-    footerSave.textContent = belajar ? '◆ MODUL BELAJAR ◆' : '◆ TITIK SIMPAN ◆';
-    footerCredit.style.display = belajar ? 'none' : '';
+    document.body.setAttribute('data-view', view);
+    document.querySelectorAll('#navLinks a[data-view]').forEach(a => {
+      a.classList.toggle('active', a.getAttribute('data-view') === view);
+    });
     window.scrollTo(0, 0);
-    syncNavHeight();
+    requestAnimationFrame(syncNavHeight);
   }
 
-  openBelajarBtn.addEventListener('click', () => setView('belajar'));
-  backLink.addEventListener('click', (evt) => {
-    evt.preventDefault();
+  document.querySelectorAll('a[data-view]').forEach(a => {
+    a.addEventListener('click', (evt) => {
+      evt.preventDefault();
+      setView(a.getAttribute('data-view'));
+      closeMobileMenu();
+    });
+  });
+
+  // ---- section dropdown (Kenapa Pilih Kami / Cara Main / Coba Bertarung / Fitur / Tim) ----
+  const sectionDropdown = document.getElementById('sectionDropdown');
+  const dropdownToggle = document.getElementById('dropdownToggle');
+  const dropdownMenu = document.getElementById('dropdownMenu');
+
+  function closeDropdown() {
+    sectionDropdown.classList.remove('open');
+    dropdownToggle.setAttribute('aria-expanded', 'false');
+  }
+
+  dropdownToggle.addEventListener('click', (evt) => {
+    evt.stopPropagation();
+    const isOpen = sectionDropdown.classList.toggle('open');
+    dropdownToggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+  });
+
+  document.addEventListener('click', (evt) => {
+    if (!sectionDropdown.contains(evt.target)) closeDropdown();
+  });
+
+  function goToSection(sectionId) {
+    closeDropdown();
+    closeMobileMenu();
     setView('home');
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        const target = document.getElementById(sectionId);
+        if (target) target.scrollIntoView({ behavior: 'smooth' });
+      });
+    });
+  }
+
+  document.querySelectorAll('[data-section]').forEach(a => {
+    a.addEventListener('click', (evt) => {
+      evt.preventDefault();
+      goToSection(a.getAttribute('data-section'));
+    });
   });
 
   // ---- mini battle demo (home view) ----
