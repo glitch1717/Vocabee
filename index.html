@@ -7,6 +7,9 @@
   <title>VOCABEE — Bertarung Melawan Kesalahan Bahasa Inggrismu</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <!-- Favicon custom -->
+  <link rel="icon" type="image/png" href="https://i.ibb.co.com/qYHvGp9f/Vocabee-Proto-1.png">
+
   <link
     href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&family=Inter:wght@400;500;600;700;800&display=swap"
     rel="stylesheet">
@@ -887,6 +890,22 @@
       background: var(--gold);
     }
 
+    .member .avatar.photo {
+      overflow: hidden;
+    }
+
+    .member .avatar.photo::after {
+      content: none;
+    }
+
+    .member .avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      image-rendering: pixelated;
+    }
+
     .member h3 {
       font-family: var(--font-term);
       font-size: 22px;
@@ -1263,7 +1282,10 @@
 
   <header class="nav">
     <div class="nav-inner">
-      <div class="logo"><span class="sq" aria-hidden="true"></span>VOCABEE</div>
+      <div class="logo">
+        <a href="#"><img src="https://i.ibb.co.com/qYHvGp9f/Vocabee-Proto-1.png" alt="Vocabee Proto (1)" border="0"></a>
+        VOCABEE
+      </div>
 
       <nav class="links" id="navLinks">
         <a href="#" data-view="home" class="active">Home</a>
@@ -1292,11 +1314,11 @@
           <div>
             <p class="encounter-tag">* Sebuah kesalahan bahasa muncul<span class="blink">_</span></p>
             <h1 class="title">Belajar Inggris untuk <span class="accent">bertarung.</span></h1>
-            <p class="lede">VocaBee menyediakan platform belajar Bahasa Inggris melalui game petualangan dan juga
-              menyediakan modul belajar untuk para pelajar</p>
+            <p class="lede">Tingkatkan kemampuan Bahasa Inggris bersama VocaBee melalui game petualangan seru dan modul
+              belajar yang interaktif.</p>
             <div class="hero-actions">
-              <a class="btn" href="#" data-view="game">Coba Bertarung Sekarang</a>
-              <a class="btn ghost" href="#" data-section="masalah">Kenapa Pilih Kami</a>
+              <a class="btn" href="#" data-view="game">Coba Sekarang</a>
+              <a class="btn ghost" href="#" data-section="masalah">Mengapa VocaBee?</a>
             </div>
           </div>
 
@@ -1354,8 +1376,10 @@
         <div class="wrap">
           <p class="eyebrow-line"><span class="dash"></span>Cara Main</p>
           <h2 class="h2">Satu putaran pertarungan, empat langkah.</h2>
-          <p class="lede" style="margin-top:16px;">VocaBee memakai sistem giliran khas RPG klasik — tapi setiap perintah
-            menyasar keterampilan bahasa yang berbeda.</p>
+          <p class="lede" style="margin-top:16px;">VocaBee memakai sistem <i>turn-based</i> khas RPG klasik, tetapi
+            setiap
+            perintah
+            menyasar keterampilan berbahasa Inggris yang berbeda.</p>
 
           <div class="turns">
             <div class="turn">
@@ -1439,48 +1463,48 @@
         </div>
       </section>
 
-      <!-- FITUR -->
-      <section id="fitur">
+      <!-- KELEBIHAN -->
+      <section id="Kelebihan">
         <div class="wrap">
-          <p class="eyebrow-line"><span class="dash"></span>Fitur</p>
-          <h2 class="h2">Kemampuan yang dilatih di setiap pertarungan.</h2>
+          <p class="eyebrow-line"><span class="dash"></span>Kelebihan</p>
+          <h2 class="h2">Kelebihan yang bikin VocaBee beda.</h2>
 
           <div class="ability-grid" style="margin-top: 28px;">
             <div class="ability">
-              <span class="tag">KOSAKATA +</span>
-              <h3>Perbendaharaan Kata Meluas</h3>
-              <p>Kata-kata yang muncul sengaja dipilih di luar materi standar sekolah, supaya pemain terbiasa dengan
-                kosakata yang lebih variatif dan kontekstual.</p>
+              <span class="tag">GAME +</span>
+              <h3>Platform Game Interaktif</h3>
+              <p>VocaBee menyajikan game RPG sungguhan yang bisa langsung
+                dimainkan, jadi belajar bahasa Inggris terasa seperti bermain, bukan mengerjakan tugas.</p>
             </div>
             <div class="ability">
-              <span class="tag">GRAMMAR +</span>
-              <h3>Latihan Tata Bahasa Kontekstual</h3>
-              <p>Setiap musuh mewakili satu pola kesalahan nyata — tenses, article, atau urutan kata — bukan soal
-                hafalan lepas konteks.</p>
+              <span class="tag">NATIVE +</span>
+              <h3>Kerja Sama dengan Native Speaker</h3>
+              <p>Game ini dikembangkan melalui kolaborasi langsung dengan native speaker demi menghadirkan pengalaman
+                belajar yang interaktif, relevan, dan menyenangkan.</p>
+            </div>
+            <div class="ability">
+              <span class="tag">MODUL +</span>
+              <h3>Modul Belajar Terstruktur</h3>
+              <p>Selain bertarung, tersedia modul flashcard berisi kosakata dasar lengkap dengan contoh kalimat, cocok
+                dipakai sebelum atau sesudah bermain.</p>
+            </div>
+            <div class="ability">
+              <span class="tag">PROGRES +</span>
+              <h3>Progres Tersimpan Otomatis (Coming Soon)</h3>
+              <p>Setiap kata yang sudah kamu hafalkan otomatis tersimpan di browser, jadi kamu bisa lanjut belajar kapan
+                pun tanpa harus mengulang dari awal.</p>
+            </div>
+            <div class="ability">
+              <span class="tag">AKSES +</span>
+              <h3>Bisa Diakses Kapan Saja</h3>
+              <p>Tampilan VocaBee menyesuaikan otomatis di HP, tablet, maupun laptop, dan bisa langsung dicoba tanpa
+                instalasi rumit.</p>
             </div>
             <div class="ability">
               <span class="tag">RUANG AMAN</span>
-              <h3>Bebas Takut Salah</h3>
-              <p>Kekalahan sementara dalam pertarungan hanya berarti coba lagi, meniru cara game RPG memberi ruang
-                bereksperimen tanpa konsekuensi nyata.</p>
-            </div>
-            <div class="ability">
-              <span class="tag">UMPAN BALIK</span>
-              <h3>Koreksi Instan</h3>
-              <p>Hasil benar atau salah langsung terlihat lewat animasi pertarungan, bukan menunggu koreksi guru
-                berhari-hari kemudian.</p>
-            </div>
-            <div class="ability">
-              <span class="tag">ADAPTIF</span>
-              <h3>Kesulitan Berjenjang</h3>
-              <p>Musuh awal berupa kesalahan sederhana; semakin jauh permainan, pola kalimat dan jebakan ejaan makin
-                kompleks.</p>
-            </div>
-            <div class="ability">
-              <span class="tag">REGISTER</span>
-              <h3>Formal vs. Informal</h3>
-              <p>Pemain belajar membedakan kapan bahasa gaul media sosial boleh dipakai, dan kapan harus beralih ke
-                bahasa baku.</p>
+              <h3>Aman untuk Mencoba</h3>
+              <p>Pemain bebas bereksperimen menulis kosakata dan
+                kalimat baru tanpa takut dihakimi.</p>
             </div>
           </div>
         </div>
@@ -1512,12 +1536,16 @@
               <span class="role">Anggota Tim</span>
             </div>
             <div class="member">
-              <div class="avatar" aria-hidden="true"></div>
+              <div class="avatar photo"><img
+                  src="data:image/png;base64,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"
+                  alt="Potret Lionel"></div>
               <h3>Lionel</h3>
               <span class="role">Anggota Tim</span>
             </div>
             <div class="member">
-              <div class="avatar" aria-hidden="true"></div>
+              <div class="avatar photo"><img
+                  src="data:image/png;base64,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"
+                  alt="Potret Joshua"></div>
               <h3>Joshua</h3>
               <span class="role">Anggota Tim</span>
             </div>
